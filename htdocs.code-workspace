@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../xampp/htdocs"
+		},
+		{
+			"path": "../Login page"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "DesignatedDriver"
+	}
+}
