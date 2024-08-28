@@ -1,40 +1,33 @@
-document.addEventListener("DOMContentLoaded", function() {
-    fetchCars();
-  });
-  
-  function fetchCars() {
-    fetch('server.php?action=getCars')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const carsPanel = document.getElementById('carsPanel');
-        carsPanel.innerHTML = '';
-        data.forEach(car => {
-          const carElement = document.createElement('div');
-          carElement.classList.add('car');
-          carElement.innerHTML = `
-            <h3>${car.name}</h3>
-            <p>Brand: ${car.brand}</p>
-            <p>Model: ${car.model}</p>
-            <p>Mileage: ${car.mileage}</p>
-            <p>Seats: ${car.seats}</p>
-            <p>Luggage Space: ${car.luggage_space}</p>
-            <img src="${car.image}" alt="${car.name}">
-          `;
-          carsPanel.appendChild(carElement);
-        });
-      })
-      .catch(error => {
-        if (error instanceof TypeError) {
-          console.error('Network error occurred:', error.message);
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Create a new FormData object to store form data
+    var formData = new FormData();
+    
+    // Get the file input element and append the selected file to the FormData object
+    var fileInput = document.getElementById('imageFile');
+    formData.append('imageFile', fileInput.files[0]);
+
+    // Send a POST request to the upload.php endpoint with the form data
+    fetch('upload.php', {
+        method: 'POST',
+        body: formData // Set the body of the request to the FormData object
+    })
+    .then(response => response.json()) // Parse the JSON response from the server
+    .then(data => {
+        // Handle the response data
+        if (data.success) {
+            // If the upload was successful, display success message
+            document.getElementById('message').textContent = 'Image and Key successfully uploaded!';
         } else {
-        //   console.error('Error fetching cars:', error);
+            // If there was an error in the upload process, display error message
+            document.getElementById('message').textContent = 'Error uploading image and key.';
         }
-      });
-      
-  }
-  
+    })
+    .catch(error => {
+        // Handle any errors that occur during the fetch request
+        console.error('Error:', error);
+        // Display error message
+        document.getElementById('message').textContent = 'Error uploading image and key.';
+    });
+});

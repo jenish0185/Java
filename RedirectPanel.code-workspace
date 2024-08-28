@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../RedirectPanel"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "RedirectPanel"
+	}
+}
